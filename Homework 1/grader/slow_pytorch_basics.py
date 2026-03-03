@@ -1,6 +1,5 @@
 import torch
 
-
 class PyTorchBasics:
     """
     Implement the following python code with PyTorch.
