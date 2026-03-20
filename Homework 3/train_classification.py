@@ -1,3 +1,4 @@
+# AI was used in generation of this code
 """
 Training script for the Classifier model (Part 1).
 Usage: python train_classification.py

@@ -1,3 +1,4 @@
+# AI was used in generation of this code
 """
 Training script for the Detector model (Part 2).
 Usage: python train_detection.py

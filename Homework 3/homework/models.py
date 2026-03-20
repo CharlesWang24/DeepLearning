@@ -1,3 +1,4 @@
+# AI was used in generation of this code
 from pathlib import Path
 
 import torch
