@@ -53,12 +53,67 @@ class AutoregressiveModel(torch.nn.Module, Autoregressive):
     Hint: You can complete this homework without using positional embeddings
     """
 
-    def __init__(self, d_latent: int = 128, n_tokens: int = 2**10):
+    def __init__(self, d_latent: int = 128, n_tokens: int = 2**10, n_layers: int = 4, n_heads: int = 4, max_len: int = 1024):
         super().__init__()
-        raise NotImplementedError()
+        self.d_latent = d_latent
+        self.n_tokens = n_tokens
+        self.max_len = max_len
 
+        self.embedding = torch.nn.Embedding(n_tokens, d_latent)
+        self.start_token = torch.nn.Parameter(torch.zeros(1, 1, d_latent))
+        self.pos_embedding = torch.nn.Parameter(torch.zeros(1, max_len, d_latent))
+        torch.nn.init.normal_(self.pos_embedding, std=0.02)
+        torch.nn.init.normal_(self.start_token, std=0.02)
+        
+        encoder_layer = torch.nn.TransformerEncoderLayer(d_model=d_latent,
+                                                         nhead=n_heads,
+                                                         batch_first=True,
+                                                         norm_first=True,
+                                                        dim_feedforward=d_latent * 4,
+                                                        dropout=0.0,
+                                                        activation="gelu")
+
+        self.transformer = torch.nn.TransformerEncoder(encoder_layer, num_layers=n_layers)
+        self.norm = torch.nn.LayerNorm(d_latent)
+        self.head = torch.nn.Linear(d_latent, n_tokens)
+        
+        def _run(self, x_flat: torch.Tensor) -> torch.Tensor:
+            """
+            x_flat: (B, h * w) a flattened tensor of integers
+            return: (B, h * w, n_tokens) a tensor of probabilities over the next token
+            """
+            B, L = x_flat.shape
+            embed = self.embedding(x_flat)  # (B, L, d_latent)
+            start = self.start_token.expand(B, -1, -1)  # (B, 1, d_latent)
+            embed_shifted = torch.cat([start, embed[:, :-1]], dim=1)  # (B, L, d_latent)
+            assert L <= self.max_len, f"Input length {L} exceeds max length {self.max_len}"
+            embed_shifted = embed_shifted + self.pos_embedding[:, :L]  # (B, L, d_latent
+            
+            mask = torch.nn.transformer.generate_square_subsequent_mask(L).to(embed_shifted.device)  # (L, L)
+            out = self.transformer(embed_shifted, mask=mask)  # (B, L, d_latent)
+            out = self.norm(out)  # (B, L, d_latent)
+            return self.head(out)  # (B, L, n_tokens)
+        
     def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
-        raise NotImplementedError()
+        """
+        x: (B, h, w) a tensor of integers
+        return: (B, h, w, n_tokens) a tensor of probabilities over the next token
+        """
+        B, h, w = x.shape
+        L = h * w
+        logits = self._run(x.reshape(B, L))  # (B, h * w, n_tokens)
+        return logits.view(B, h, w, self.n_tokens), {}
 
-    def generate(self, B: int = 1, h: int = 30, w: int = 20, device=None) -> torch.Tensor:  # noqa
-        raise NotImplementedError()
+    def generate(self, B: int = 1, h: int = 20, w: int = 30, device=None) -> torch.Tensor:  # noqa
+        """
+        Use your generative model to produce B new token images of size (B, h, w) and type (int/long).
+        """
+        L = h * w
+        if device is None:
+            device = next(self.parameters()).device
+        x_flat = torch.zeros(B, L, dtype=torch.long, device=device)  # (B, h * w)
+        for i in range(L):
+            logits = self._run(x_flat)  # (B, h * w, n_tokens)
+            probs = torch.softmax(logits[:, i], dim=-1)  # (B, n_tokens)
+            x_flat[:, i] = torch.multinomial(probs, num_samples=1).squeeze(-1)  # (B,)
+        return x_flat.view(B, h, w)  # (B, h, w)
