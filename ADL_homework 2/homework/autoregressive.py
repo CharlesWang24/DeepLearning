@@ -77,22 +77,22 @@ class AutoregressiveModel(torch.nn.Module, Autoregressive):
         self.norm = torch.nn.LayerNorm(d_latent)
         self.head = torch.nn.Linear(d_latent, n_tokens)
         
-        def _run(self, x_flat: torch.Tensor) -> torch.Tensor:
-            """
-            x_flat: (B, h * w) a flattened tensor of integers
-            return: (B, h * w, n_tokens) a tensor of probabilities over the next token
-            """
-            B, L = x_flat.shape
-            embed = self.embedding(x_flat)  # (B, L, d_latent)
-            start = self.start_token.expand(B, -1, -1)  # (B, 1, d_latent)
-            embed_shifted = torch.cat([start, embed[:, :-1]], dim=1)  # (B, L, d_latent)
-            assert L <= self.max_len, f"Input length {L} exceeds max length {self.max_len}"
-            embed_shifted = embed_shifted + self.pos_embedding[:, :L]  # (B, L, d_latent
-            
-            mask = torch.nn.transformer.generate_square_subsequent_mask(L).to(embed_shifted.device)  # (L, L)
-            out = self.transformer(embed_shifted, mask=mask)  # (B, L, d_latent)
-            out = self.norm(out)  # (B, L, d_latent)
-            return self.head(out)  # (B, L, n_tokens)
+    def _run(self, x_flat: torch.Tensor) -> torch.Tensor:
+        """
+        x_flat: (B, h * w) a flattened tensor of integers
+        return: (B, h * w, n_tokens) a tensor of probabilities over the next token
+        """
+        B, L = x_flat.shape
+        embed = self.embedding(x_flat)  # (B, L, d_latent)
+        start = self.start_token.expand(B, -1, -1)  # (B, 1, d_latent)
+        embed_shifted = torch.cat([start, embed[:, :-1]], dim=1)  # (B, L, d_latent)
+        assert L <= self.max_len, f"Input length {L} exceeds max length {self.max_len}"
+        embed_shifted = embed_shifted + self.pos_embedding[:, :L]  # (B, L, d_latent
+        
+        mask = torch.nn.Transformer.generate_square_subsequent_mask(L).to(embed_shifted.device)  # (L, L)
+        out = self.transformer(embed_shifted, mask=mask)  # (B, L, d_latent)
+        out = self.norm(out)  # (B, L, d_latent)
+        return self.head(out)  # (B, L, n_tokens)
         
     def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
         """
