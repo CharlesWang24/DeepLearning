@@ -200,3 +200,81 @@ Then install additional dependencies:
 ```bash
 pip install -r requirements.txt
 ```
+
+
+
+Homework 3 is due Sunday, July 26, at 11:59 PM CDT
+Some small tips before submitting:
+
+Don't modify the starter code in places that aren't marked for modification.
+
+Make sure you're using the correct environment and have installed requirements.txt.
+
+Always test your ZIP bundle locally according to the README before submitting on Canvas.
+
+Check file size of submission. Remove checkpoints before submission.
+
+For CoT: 
+
+We suggest inspecting the train.json file for ideas for your examples. Some conversions use specific values, so if you use the wrong conversion value in your examples, you may hurt your model's performance.
+
+The better your score here, the easier the rest will be! We suggest obtaining a CoT score closer to 0.6.
+
+For datagen.py: 
+
+You can use HuggingFaceTB/SmolLM2-1.7B-Instruct for the generation part. 
+
+Be careful how you generate your data. You can iterate over the training data and produce 10 oversamples per question at a time (it takes around 9 GB of VRAM), or make a single batched_generate() call with the entire training set. The latter is faster but requires more than 60 GB of VRAM for 20 oversamples, and is not necessarily better. The right approach depends on your GPU.
+
+Don't pass the raw question to batched_generate(), you have to turn the question into a properly formatted prompt first with format_prompt()
+
+You also need to verify that each candidate's answer is both correct and in the correct format. The is_answer_valid function from data.py may be useful here, and remember that the answer should always be enclosed in <answer> tags.
+Here's an example from the README file.
+
+
+We recommend that you collect 1,000 data points that meet the previous conditions
+
+If you're getting significantly less than 1,000, you need to inspect what you're generating and diagnose what's happening. For each rejection log,
+
+the original question and expected answer,
+
+the generated reasoning and final answer,
+
+the parsed numerical answer,
+
+and the reason it was rejected.
+
+You need to determine whether the low acceptance rate comes from bad generations or valid generations being rejected incorrectly. Look for missing <answer> tags, truncated responses, incorrect parsing, overly strict numerical comparison, or consistently incorrect reasoning. Start small, sample 10-20 questions, half you're accepting and half you're rejecting.
+
+RFT
+
+We recommend achieving at least 78% accuracy and a 100% answer rate. 
+
+Note: this applies to the general RFT test; the extra credit is meant to be harder.
+Timing Stats
+
+Here are some ballpark runtime measurements on old Apple Silicon and Colab CUDA GPUs. But please keep these in mind when scheduling your time to work on this assignment and leave yourself plenty of time to experiment before the submission deadline. If you're on a beefy GPU and taking significantly longer than these please inspect your code more closely.
+
+Train SFT (5 epochs)
+
+16 min on a M1 Pro
+
+8 min on a Colab T4
+
+4 min on a Colab L4
+
+2 min on a Colab A100
+
+1 min on a Colab G4
+
+datagen.py with HuggingFaceTB/SmolLM2-1.7B-Instruct , oversample = 10
+
+2.25 hours on a M1 Pro
+
+1.5 hours on a Colab T4
+
+1 hours on a Colab L4
+
+0.5 hours on a Colab A100
+
+0.25 hours on a Colab G4
