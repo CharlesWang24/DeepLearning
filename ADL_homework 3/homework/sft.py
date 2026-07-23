@@ -45,11 +45,14 @@ def tokenize(tokenizer, question: str, answer: str):
     return full
 
 
-def format_example(prompt: str, answer: str) -> dict[str, str]:
+def format_example(prompt: str, answer: float) -> dict[str, str]:
     """
     Construct a question / answer pair. Consider rounding the answer to make it easier for the LLM.
     """
-    raise NotImplementedError()
+    return {
+        "question": prompt,
+        "answer": f"<answer>{round(float(answer), 3)}</answer>",
+    }
 
 
 class TokenizedDataset:
@@ -75,10 +78,47 @@ class TokenizedDataset:
 
 
 def train_model(
-    output_dir: str,
+    output_dir: str = "homework/sft_model",
     **kwargs,
 ):
-    raise NotImplementedError()
+    from peft import LoraConfig, get_peft_model
+    from transformers import Trainer, TrainingArguments
+    
+    llm = BaseLLM()
+    lora_config = LoraConfig(
+        r=8,
+        lora_alpha=32,
+        target_modules="all-linear",
+        bias="none",
+        task_type="CAUSAL_LM",
+    )
+    
+    model = get_peft_model(llm.model, lora_config)
+    model.enable_input_require_grads()
+    model.print_trainable_parameters()
+    train_data = Dataset("train")
+    tokenized_dataset = TokenizedDataset(llm.tokenizer, train_data, format_example)
+    
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        logging_dir=output_dir,
+        report_to="tensorboard",
+        per_device_train_batch_size=32,
+        num_train_epochs=5,
+        learning_rate=2e-4,
+        gradient_checkpointing=True,
+        logging_steps=10,
+        save_strategy="epoch",
+        save_total_limit=1,
+    )
+    
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_dataset,
+    )
+    trainer.train()
+    trainer.save_model(output_dir)
     test_model(output_dir)
 
 
