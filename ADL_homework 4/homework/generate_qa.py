@@ -167,29 +167,29 @@ def extract_kart_objects(
         class_id, track_id, x1, y1, x2, y2 = detection
         if int(class_id) != 1:  # Only consider karts
             continue
-    
-    x1s, y1s = x1 * scale_x, y1 * scale_y
-    x2s, y2s = x2 * scale_x, y2 * scale_y
 
-    if (x2s - x1s) < min_box_size or (y2s - y1s) < min_box_size:
-        continue
-    
-    cx = (x1s + x2s) / 2
-    cy = (y1s + y2s) / 2
-    
-    if cx < 0 or cx > img_width or cy < 0 or cy > img_height:
-        continue
-    
-    kart_objects.append({
-        "instance_id": int(track_id),
-        "kart_name": kart_names[int(track_id)],
-        "center": (cx, cy),
-        "is_center_kart": False  # Will determine later
-    })
-    
+        x1s, y1s = x1 * scale_x, y1 * scale_y
+        x2s, y2s = x2 * scale_x, y2 * scale_y
+
+        if (x2s - x1s) < min_box_size or (y2s - y1s) < min_box_size:
+            continue
+
+        cx = (x1s + x2s) / 2
+        cy = (y1s + y2s) / 2
+
+        if cx < 0 or cx > img_width or cy < 0 or cy > img_height:
+            continue
+
+        kart_objects.append({
+            "instance_id": int(track_id),
+            "kart_name": kart_names[int(track_id)],
+            "center": (cx, cy),
+            "is_center_kart": False  # Will determine later
+        })
+
     if kart_objects:
         ego_kart = min(kart_objects, key=lambda k: (k["center"][0] - image_center[0]) ** 2 + (k["center"][1] - image_center[1]) ** 2)
-        ego_kart["is_center_kart"] = True    
+        ego_kart["is_center_kart"] = True
 
     return kart_objects
 def extract_track_info(info_path: str) -> str:

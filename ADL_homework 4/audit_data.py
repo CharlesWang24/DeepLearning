@@ -4,7 +4,7 @@ from collections import defaultdict
 from pathlib import Path
 
 
-from homework.generate_captions import generate_captions
+from homework.generate_captions import generate_caption
 from homework.generate_qa import generate_qa_pairs
 
 DATA = Path("data")
@@ -52,7 +52,7 @@ def audit_captions():
         info_path, view = parse_image_file(e["image_file"])
         if not info_path.exists():
             continue
-        ours = set(generate_captions(str(info_path), view))
+        ours = set(generate_caption(str(info_path), view))
         correct = e["candidates"][e["correct_index"]]
         total += 1
         if correct in ours:
