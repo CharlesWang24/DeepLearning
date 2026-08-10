@@ -1,0 +1,265 @@
+Skip to main content
+Logo
+Advances in Deep Learning - WB (84535)
+–
+Ed Discussion
+
+20+
+
+New Thread
+Courses
+A I W395T
+Advances in Deep Learning - WB (84535)
+69
+MSAI Central
+1308
+Categories
+General
+Lectures
+Quizzes
+Assignments
+Social
+102 others online
+Search
+Filter
+HW 4 - TIPS #101
+Juan Prado
+Last month in Assignments – HW4
+
+Pinned
+
+Star
+
+Watch
+
+2168
+22
+11
+66
+88
+Views
+
+4
+Understanding the Data
+
+Each _info.json file contains a dictionary with information about 10 images.
+
+track is the track name
+
+karts is a list of kart names
+
+For detections (see the draw_detections function for a clearer picture), you get:
+
+class_id:  class_id == 1 means the object is a kart
+
+track_id: the kart's id, used to look up its name in the karts list
+
+coordinates x1, y1, x2, y2
+
+The ego car is the one closest to the center of the image.
+
+To find the ego car, calculate the distance from each kart/box to the center of the image. How you calculate that distance is part of the homework, but recall the two common options: Euclidean distance and Manhattan distance. Which one do we want here?
+
+In this part, it's also important to analyze the data. For example, do you see cases with zero karts, or with 0 as the answer?
+
+For generate_qa.py
+
+To check the quality of your data, use generate_qa.py to generate questions and answers from the validation data, then compare the results against data/valid_grader/balanced_qa_pairs.json.
+
+For every entry in balanced_qa_pairs.json that shares the same question and image_file with your generated data, the answer must match too.
+
+You can write a Python script to check this easily.
+
+Make sure your questions and answers follow the same format as those in balanced_qa_pairs.json.
+
+Note: Do not train on the validation data. Use it only to check the quality of your data.
+We generated approximately 296k QA pairs.
+
+For finetune.py
+
+Make sure the model is saved under vlm_model, not vlm_sft.
+
+Epochs number: 
+
+If your dataset is good, 0.05 epochs (or ~15k paired samples) can be just enough to get full points on Part 1. You can experiment with training longer to achieve better performance and get a larger margin for error.
+
+For generate_captions.py
+
+For this part, we recommend first confirming that generate_qa.py runs without errors, since you'll likely reuse some of its data-generating logic. 
+
+Then apply the same logic to validate your data against data/valid_grader/all_mc_qas.json, which holds one correct caption per image. For each image_file, the result counts as correct if that image's correct caption appears in your generated data.
+
+You can write a Python script to check this easily.
+
+Note: Do not train on the validation data. Use it only to check the quality of your data.
+We generated approximately 270k captions.
+
+For clip.py
+
+Make sure the model is saved under clip_model, not clip.
+
+Many students have mentioned that CLIP is very sensitive to batch size.
+
+What initial value do we set for the parameter τ?
+
+From Wu et al. we know:
+
+logits
+=
+CS
+τ
+logits= 
+τ
+CS
+​
+ 
+
+Here τ is a fixed number set to 0.07, and CS is the cosine similarity.
+
+In the CLIP paper, the authors make the temperature learnable. The problem is that during training, the optimizer could push τ toward zero or even negative values, which would break the softmax. To avoid this, they don't learn τ directly. Instead, they learn a parameter τ and use  e^τ_learnable as the scale on the logits, as shown in the pseudocode from the CLIP paper.
+
+Now solve for τ_learnable to find its initial value.
+
+Loss:
+
+You don't need to use labels that is passed to that function and instead create your own labels following the pseudo code from the paper.
+
+Idea behind this: your logits are of shape (B, B). Each row in that tensor is logits for one image. For example, the first row is logits for image 0. The correct label is always on the diagonal of this (B, B) matrix. That is, for image 0, the correct label is 0: that is why creating the labels that are 0,1,2,3,... works in this case. Since we are focusing on the rows, axis=0 is correct. loss_i in pseudo code represents image to text loss (considering all possible texts for one image).
+
+Each column of the (B,B) matrix has logits for text. The reasoning is similar, but now we are considering columns instead of rows, and that's why axis=1. loss_t in pseudo code corresponds to text to image loss (considering all possible images for one text). 
+
+Epochs number: 
+
+0.05 epochs (or 14k paired samples) should train relatively fast on GPU and should result in validation accuracy about 40% (for a quick check if you are on the right track). 
+
+0.10 epochs should bring the accuracy to about 68%. 
+
+To get to the required accuracy, increase the epochs value further (Set it to 0.25 or higher). 
+
+For all of these results, the batch was set to 64. If you would like to use higher batch, the epochs number will have to be higher as well. 
+
+PDFs
+
+We provide these PDFs as a source of useful information, not as a full guide to HW4. 
+
+Note: the links won't open, since they point to a previous semester's Ed posts. The PDF for Part 2 also includes two helpful comments from the previous Head TA.
+HW4 Part1 help by Vinh Nguyen.pdf
+HW4_Part_2_notes_annotated.pdf
+Some of these tips are copied directly from ones shared by Ilyana Anderson, a former LF, in a previous semester.
+
+
+Timing Stats
+
+Here are some ballpark runtime measurements on old Apple Silicon and Colab CUDA GPUs. But please keep these in mind when scheduling your time to work on this assignment and leave yourself plenty of time to experiment before the submission deadline. If you're on a beefy GPU and taking significantly longer than these please inspect your code more closely.
+
+Finetune VLM (0.05 epochs)
+
+2 hours on a M1 Pro
+
+1.5 hours on a Colab T4
+
+0.5 hour on a Colab L4
+
+0.25 hour on a Colab A100
+
+0.1 hour on a Colab G4
+
+Comment
+
+Sort by Newest 
+Eric Chang
+3w
+Make sure the model is saved under clip_model, not clip.
+Related to this: I got stuck for a while because I forgot to copy additional_weights.pt to the clip_model directory (n.b. adapter_config.json and adapter_model.safetensors are also required). 
+
+By omitting additional_weights.pt, I was using an untrained model and getting effectively random accuracy results (<0.20) when running inference (e.g. python -m homework.clip test). The other symptom was that the accuracy would change on each run.
+
+I wanted to share in case it saves people some time; since failure was silent, the cause wasn't immediately obvious to me.
+
+
+2
+Reply
+
+Haojun Xu
+3w
+Hi. Would it be possible to provide some demonstrative captions for each type of caption? I did get 296K QA pairs in part 1, but only got 210K captions in part 2 after reading the captions in the valid_grader folder,  reusing the same data extraction functions in generate_qa.py. Your post says that you generated 270K captions, so I wonder whether I missed certain types of captions, or if I have an incorrect interpretation of the "relative position". Thanks.
+
+
+Reply
+
+Haojun Xu
+3w
+I believe my `generate_qa.py` is almost correct, as I gained an accuracy of 80% on my local grader. There are only 2 mismatched caption samples and 1 mismatched QA pair between the data in `valid_grader` and the data I generated on the validation dataset, and I believe that is not a big issue.
+
+
+Reply
+
+Haojun Xu
+3w
+I notice that the Part 2 note PDF above says the author generated about 210K samples and conducted the experiment successfully. So it may not be necessary to generate 270K caption samples?
+
+
+Reply
+
+Juan Prado
+3w
+Hi Haojun,
+
+Yes, it could be possible, but I honestly think the best approach is to check your data against the valid data (because the valid data will be our ground truth), so you can create two Python scripts to do this.
+
+Here is an image that will help you understand some aspects of generate_qa.py.
+
+Image: valid/000f3_00_im.jpg
+
+
+I also think it's a good idea to analyze balanced_qa_pairs.json and check_caption.py for questions that you might be missing or including.
+
+For example, for the question "How many karts are there in the scenario?", do you see an answer with zero, and so on?
+
+Sorry for the delay. I was checking those numbers. The approximate numbers of captions and QA pairs generated by generate_captions.py and generate_qa.py are correct. Remember that data quality matters more than quantity.
+
+
+Reply
+
+Steven Chen
+3w
+I see the full training takes more than an hour with A100 GPU on 0.25 epochs. For the part 2, do we have to generate another dataset? Also, after we pass part 1 for the first day, can we just train and test CLP for part 2 to save the long training time in part 1? Overall, I assume the minimal time for full training and generation are around 2 hours? 
+
+
+Reply
+
+Juan Prado
+3w
+Hi Steven, 
+
+I apologize for the late reply. A package update prevented me from logging in to my personal computer.
+
+Yes, for part 2 you will need to generate another dataset with generate_captions.py. I suggest checking your generate_qa.py first to make sure there are no errors, since you can reuse its logic in generate_captions.py.
+
+Yes, once you pass part 1 you can focus only on training CLIP. If you are working in Colab, remember to back up your work.
+
+Yes, training time depends on the GPU you use. You are right that 2 hours is about the minimum time needed to train CLIP. The PDF HW4 Part1 help by Vinh Nguyen.pdf has a table with training times for CLIP.
+
+Hope it helps!
+
+
+Reply
+
+Steven Chen
+3w
+Hi thanks. I pass the part 1 test with around 0.79 accuracy with full makrs and around 1:30 hour training. Would you mind to share how to save that successful training record as you mentioned. I think colab delete that record when I return to the file today. I assume I have to run the part 1 again when I submit the assignment. But I can start with part 2 first since I pass part 1 right? 
+
+
+Reply
+
+Juan Prado
+3w
+ Replying to Steven Chen
+Hi!
+Yes, you can start Part 2. It does not depend on Part 1. But first, I suggest checking that your generate_qa.py has no errors.
+
+Your trained model is just 2 files: adapter_config.json and adapter_model.safetensors. After training, you will find them in homework/vlm_model/. Those 2 files are all you need.
+
+Unfortunately, Colab deletes all local files when it disconnects. If you did not save these files, you will need to train Part 1 again. 
+
+
