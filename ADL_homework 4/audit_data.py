@@ -15,7 +15,7 @@ def parse_image_file(image_file):
     return DATA / split / f"{base}_info.jpg", view 
 
 def audit_qa():
-    gt = json.load(open(DATA / "valid_grader" / "balanced_qa_pair.json"))
+    gt = json.load(open(DATA / "valid_grader" / "balanced_qa_pairs.json"))
     total = mismatch = missing = 0
     per_type = defaultdict(lambda: [0,0])
     
