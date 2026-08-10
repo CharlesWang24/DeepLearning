@@ -101,8 +101,13 @@ class CLIP(nn.Module):
         super().__init__()
         self.vision_encoder = vision_encoder
         self.text_encoder = text_encoder
-        # TODO: implement the rest components
-        raise NotImplementedError("Not implemented")
+        import math
+        vision_dim = vision_encoder.config.hidden_size
+        text_dim = text_encoder.config.hidden_size
+        self.vision_proj = nn.Linear(vision_dim, proj_dim, bias=False)
+        self.text_proj = nn.Linear(text_dim, proj_dim, bias=False)
+        
+        self.logit_scale = nn.Parameter(torch.tensor(math.log(1 / temperature)))
 
     def encode_image(self, image: torch.Tensor) -> torch.Tensor:
         return self.vision_encoder(image)
@@ -180,8 +185,22 @@ class CLIP(nn.Module):
         Returns:
             TODO: think about the what values should be returned
         """
-        raise NotImplementedError("Not implemented")
-
+        vision_outputs = self.vision_encoder(pixel_values)
+        image_features = vision_outputs.last_hidden_state.mean(dim=1)
+        image_embeds = self.vision_proj(image_features)
+        image_embeds = image_embeds / image_embeds.norm(dim=-1, keepdim=True)
+        
+        text_outputs = self.text_encoder(input_ids=input_ids, attention_mask=attention_mask)
+        text_embeds = text_outputs.last_hidden_state
+        if attention_mask is None:
+            text_features = text_embeds.mean(dim=1)
+        else:
+            mask = attention_mask.unsqueeze(-1).to(text_embeds.dtype)
+            text_features = (text_embeds * mask).sum(dim=1) / mask.sum(dim=1).clamp(min=1e-6)
+        text_embeds = self.text_proj(text_features)
+        text_embeds = text_embeds / text_embeds.norm(dim=-1, keepdim=True)
+        
+        return image_embeds, text_embeds, self.logit_scale.exp()
 
 def compute_clip_loss(
     outputs: tuple[torch.Tensor, torch.Tensor, torch.Tensor],
@@ -199,7 +218,23 @@ def compute_clip_loss(
     Returns:
         The loss for the CLIP model.
     """
-    raise NotImplementedError("Not implemented")
+    import torch.nn.functional as F
+    
+    image_embeds, text_embeds, logit_scale = outputs
+    
+    # (b,b ) maxtrix of scaled cosine sims
+    logits_per_image = logit_scale * image_embeds @ text_embeds.t()
+    logits_per_text = logits_per_image.t()
+    
+    #correct match for image i is text i, and vice versa
+    batch_size = image_embeds.shape[0]
+    targets = torch.arange(batch_size, device=image_embeds.device)
+    
+    loss_i = F.cross_entropy(logits_per_image, targets)
+    loss_t = F.cross_entropy(logits_per_text, targets)
+    
+
+    return (loss_i + loss_t) / 2
 
 
 def get_target_modules_for_lora(model: nn.Module) -> list[str]:
@@ -218,7 +253,7 @@ def get_target_modules_for_lora(model: nn.Module) -> list[str]:
 
 def train(
     data_dir: Path | None = None,
-    output_dir: str = "clip",
+    output_dir: str = "clip_model",
     num_train_epochs: float = 0.05,  # for debugging purpose, increase this once the dry run works
     per_device_train_batch_size: int = 1024,
     gradient_accumulation_steps: int = 1,
