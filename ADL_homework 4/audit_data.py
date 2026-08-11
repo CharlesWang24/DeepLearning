@@ -11,8 +11,8 @@ DATA = Path("data")
 
 def parse_image_file(image_file):
     m = re.match(r"(.+)/([^/]+)_(\d+)_im\.jpg", image_file)
-    split, base, view = m.group(1), m.group(2), m.group(3)
-    return DATA / split / f"{base}_info.jpg", view 
+    split, base, view = m.group(1), m.group(2), int(m.group(3))
+    return DATA / split / f"{base}_info.json", view 
 
 def audit_qa():
     gt = json.load(open(DATA / "valid_grader" / "balanced_qa_pairs.json"))
