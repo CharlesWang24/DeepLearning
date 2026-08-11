@@ -268,3 +268,91 @@ also this is the return for
 !cat data/valid/00000_info.json |  head -c 3000
 {"track": "abyss", "karts": ["gnu", "sara_the_racer", "konqi", "sara_the_wizard", "beastie", "suzanne", "amanda", "pidgin", "xue", "adiumy"], "detections": [[[1, 0, 252, 146, 346, 239], [1, 4, 383, 162, 422, 193], [2, 0, 0, 155, 599, 399], [3, 0, 0, 0, 599, 399], [3, 97, 0, 0, 218, 150], [3, 101, 198, 17, 358, 150], [3, 103, 343, 98, 368, 147], [3, 113, 556, 106, 594, 148], [3, 115, 573, 123, 577, 131], [3, 117, 567, 112, 599, 141], [3, 119, 499, 113, 532, 149], [3, 121, 531, 113, 588, 146], [3, 123, 432, 106, 493, 149], [3, 242, 247, 45, 352, 147], [3, 243, 283, 87, 329, 128], [3, 245, 0, 0, 205, 149], [3, 246, 17, 34, 158, 144], [3, 248, 160, 11, 257, 86], [3, 249, 190, 42, 236, 82], [3, 251, 156, 76, 254, 146], [3, 252, 180, 94, 231, 143], [3, 254, 360, 69, 424, 112], [3, 255, 374, 77, 407, 110], [3, 374, 484, 6, 533, 149], [3, 378, 555, 57, 581, 114], [3, 380, 0, 3, 50, 150], [3, 384, 402, 8, 433, 149], [3, 386, 370, 59, 390, 149]], [[1, 0, 285, 149, 304, 166], [1, 1, 271, 171, 326, 273], [1, 4, 330, 155, 345, 168], [2, 0, 0, 156, 599, 399], [3, 0, 0, 0, 599, 399], [3, 97, 34, 29, 231, 149], [3, 99, 0, 49, 41, 150], [3, 101, 220, 44, 338, 150], [3, 103, 329, 107, 348, 147], [3, 113, 512, 108, 544, 149], [3, 115, 515, 129, 527, 140], [3, 117, 513, 127, 544, 146], [3, 119, 471, 122, 496, 143], [3, 121, 487, 120, 532, 147], [3, 123, 405, 118, 454, 144], [3, 242, 250, 65, 335, 147], [3, 243, 278, 98, 315, 137], [3, 245, 25, 39, 221, 149], [3, 246, 88, 66, 182, 145], [3, 248, 186, 43, 258, 99], [3, 249, 210, 62, 240, 95], [3, 251, 186, 95, 257, 147], [3, 252, 220, 114, 239, 144], [3, 254, 345, 79, 398, 116], [3, 255, 357, 88, 386, 115], [3, 374, 448, 33, 483, 149], [3, 376, 550, 65, 585, 149], [3, 378, 511, 71, 532, 142], [3, 380, 52, 0, 114, 149], [3, 382, 0, 11, 36, 149], [3, 384, 377, 31, 403, 150], [3, 386, 353, 72, 368, 149]], [[1, 2, 246, 192, 334, 262], [1, 9, 375, 139, 384, 145], [2, 0, 0, 143, 599, 399], [3, 0, 0, 0, 599, 399], [3, 58, 518, 33, 584, 119], [3, 61, 316, 11, 413, 140], [3, 230, 0, 129, 27, 178], [3, 281, 0, 95, 18, 137], [5, 7, 354, 145, 357, 148], [5, 8, 273, 151, 280, 158]], [[1, 3, 274, 184, 326, 292], [1, 5, 306, 181, 366, 229], [1, 8, 324, 149, 339, 164], [2, 0, 0, 154, 599, 399], [3, 0, 0, 0, 599, 399], [3, 41, 577, 141, 599, 159], [3, 97, 141, 134, 172, 177], [3, 99, 67, 130, 134, 157], [3, 101, 204, 133, 251, 163], [3, 103, 249, 158, 249, 161], [3, 113, 343, 153, 350, 159], [3, 242, 207, 137, 244, 163], [3, 243, 223, 151, 238, 162], [3, 245, 117, 135, 177, 178], [3, 246, 145, 144, 178, 177], [3, 248, 198, 133, 213, 152], [3, 249, 200, 141, 201, 149], [3, 251, 204, 155, 210, 161], [3, 254, 254, 142, 267, 158], [3, 255, 261, 144, 266, 158], [3, 294, 575, 155, 585, 156], [3, 374, 310, 120, 318, 166], [3, 378, 344, 134, 349, 158], [3, 380, 140, 86, 161, 178], [3, 382, 78, 60, 110, 155], [3, 384, 277, 117, 279, 121], [3, 386, 260, 136, 265, 161]], [[1, 4, 238, 185, 358, 288], [2, 0, 0, 153, 599, 399], [3, 0, 0, 0, 599, 39
 
+
+2026-08-11 19:13:28.499908: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-08-11 19:13:28.566358: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+processor_config.json: 100% 68.0/68.0 [00:00<00:00, 581kB/s]
+chat_template.json: 100% 429/429 [00:00<00:00, 4.15MB/s]
+preprocessor_config.json: 100% 486/486 [00:00<00:00, 5.27MB/s]
+tokenizer_config.json: 28.2kB [00:00, 102MB/s]
+vocab.json: 801kB [00:00, 73.5MB/s]
+merges.txt: 466kB [00:00, 120MB/s]
+tokenizer.json: 3.55MB [00:00, 180MB/s]
+added_tokens.json: 4.74kB [00:00, 3.34MB/s]
+special_tokens_map.json: 1.07kB [00:00, 8.02MB/s]
+Mismatch: How many karts are there in the scenario? -> 1 (expected 2)
+Mismatch: How many karts are in front of the ego car? -> 0 (expected 1)
+Mismatch: How many karts are in front of the ego car? -> 0 (expected 1)
+Total: 120, Mismatches: 3, Missing: 0
+Per question type (correct/total):
+  What X X X X X?: 24/24
+  How X X X X X X X?: 31/32
+  What X X X?: 24/24
+  Is X X X X X X X X X?: 6/6
+  Where X X X X X X X?: 11/11
+  Is X X X X X X X X X X?: 7/7
+  How X X X X X X X X X?: 7/9
+  How X X X X X X X X X X?: 7/7
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'gavroche is the ego car.', 'kiki is left of the ego car.', 'The track is snowmountain.', 'kiki is in front of the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'suzanne is the ego car.', 'The track is scotland.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is sandtrack.', 'kiki is the ego car.', 'There are 1 karts in the scenario.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is snowmountain.', 'There are 1 karts in the scenario.', 'suzanne is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is minigolf.', 'There are 1 karts in the scenario.', 'hexley is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'gavroche is the ego car.', 'There are 1 karts in the scenario.', 'The track is hacienda.'})
+Missing: There are 1 karts in the scene. (ours: {'pidgin is the ego car.', 'The track is minigolf.', 'There are 1 karts in the scenario.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is abyss.', 'There are 1 karts in the scenario.', 'konqi is the ego car.'})
+Missing: xue is left of the ego car. (ours: {'There are 2 karts in the scenario.', 'xue is right of the ego car.', 'xue is behind the ego car.', 'The track is sandtrack.', 'wilber is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'nolok is the ego car.', 'There are 1 karts in the scenario.', 'The track is snowtuxpeak.'})
+Missing: There are 1 karts in the scene. (ours: {'tux is the ego car.', 'There are 1 karts in the scenario.', 'The track is cocoa_temple.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is abyss.', 'There are 1 karts in the scenario.', 'gnu is the ego car.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'puffy is right of the ego car.', 'puffy is behind the ego car.', 'beastie is the ego car.', 'The track is olivermath.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is sandtrack.', 'There are 1 karts in the scenario.', 'amanda is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is minigolf.', 'There are 1 karts in the scenario.', 'hexley is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is black_forest.', 'kiki is the ego car.', 'There are 1 karts in the scenario.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is minigolf.', 'There are 1 karts in the scenario.', 'amanda is the ego car.'})
+Missing: kiki is behind the ego car. (ours: {'kiki is the ego car.', 'There are 1 karts in the scenario.', 'The track is gran_paradiso_island.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'gnu is the ego car.', 'The track is scotland.'})
+Missing: There are 1 karts in the scene. (ours: {'pidgin is the ego car.', 'There are 1 karts in the scenario.', 'The track is ravenbridge_mansion.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'gnu is the ego car.', 'The track is fortmagma.'})
+Missing: There are 2 karts in the scene. (ours: {'amanda is in front of the ego car.', 'There are 2 karts in the scenario.', 'gavroche is the ego car.', 'The track is black_forest.', 'amanda is left of the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'sara_the_wizard is the ego car.', 'There are 1 karts in the scenario.', 'The track is cocoa_temple.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'The track is volcano_island.', 'amanda is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'The track is tutorial.', 'emule is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'The track is lighthouse.', 'sara_the_racer is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'gavroche is the ego car.', 'There are 1 karts in the scenario.', 'The track is ravenbridge_mansion.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'adiumy is the ego car.', 'The track is candela_city.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'adiumy is the ego car.', 'The track is scotland.'})
+Missing: There are 1 karts in the scene. (ours: {'kiki is the ego car.', 'There are 1 karts in the scenario.', 'The track is ravenbridge_mansion.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'hexley is the ego car.', 'The track is hacienda.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'puffy is the ego car.', 'The track is xr591.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'emule is in front of the ego car.', 'The track is tutorial.', 'konqi is the ego car.', 'emule is right of the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'tux is the ego car.', 'There are 1 karts in the scenario.', 'The track is tutorial.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is black_forest.', 'kiki is the ego car.', 'There are 1 karts in the scenario.'})
+Missing: There are 1 karts in the scene. (ours: {'emule is the ego car.', 'There are 1 karts in the scenario.', 'The track is scotland.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'xue is the ego car.', 'The track is snowtuxpeak.'})
+Missing: kiki is the ego car. (ours: {'The track is cornfield_crossing.', 'There are 1 karts in the scenario.', 'puffy is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'pidgin is the ego car.', 'The track is minigolf.', 'There are 1 karts in the scenario.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is sandtrack.', 'pidgin is the ego car.', 'There are 1 karts in the scenario.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'konqi is left of the ego car.', 'konqi is in front of the ego car.', 'tux is the ego car.', 'The track is xr591.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'The track is cocoa_temple.', 'sara_the_racer is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is sandtrack.', 'There are 1 karts in the scenario.', 'adiumy is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is sandtrack.', 'There are 1 karts in the scenario.', 'adiumy is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'adiumy is the ego car.', 'There are 1 karts in the scenario.', 'The track is olivermath.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is cornfield_crossing.', 'There are 1 karts in the scenario.', 'konqi is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'The track is lighthouse.', 'gavroche is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'nolok is the ego car.', 'There are 1 karts in the scenario.', 'The track is ravenbridge_mansion.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'The track is scotland.', 'sara_the_wizard is in front of the ego car.', 'sara_the_wizard is left of the ego car.', 'pidgin is the ego car.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'emule is the ego car.', 'The track is scotland.', 'kiki is right of the ego car.', 'kiki is in front of the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'sara_the_racer is the ego car.', 'There are 1 karts in the scenario.', 'The track is hacienda.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'The track is cornfield_crossing.', 'kiki is left of the ego car.', 'puffy is the ego car.', 'kiki is in front of the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'There are 1 karts in the scenario.', 'gnu is the ego car.', 'The track is scotland.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is black_forest.', 'There are 1 karts in the scenario.', 'konqi is the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'sara_the_wizard is the ego car.', 'There are 1 karts in the scenario.', 'The track is snowtuxpeak.'})
+Missing: There are 4 karts in the scene. (ours: {'There are 4 karts in the scenario.', 'konqi is behind the ego car.', 'konqi is left of the ego car.', 'The track is gran_paradiso_island.', 'xue is right of the ego car.', 'xue is behind the ego car.', 'pidgin is behind the ego car.', 'pidgin is left of the ego car.', 'adiumy is the ego car.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'kiki is left of the ego car.', 'The track is snowmountain.', 'adiumy is the ego car.', 'kiki is in front of the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'The track is sandtrack.', 'There are 1 karts in the scenario.', 'hexley is the ego car.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'wilber is in front of the ego car.', 'The track is minigolf.', 'sara_the_racer is the ego car.', 'wilber is left of the ego car.'})
+Missing: There are 1 karts in the scene. (ours: {'beastie is the ego car.', 'There are 1 karts in the scenario.', 'The track is xr591.'})
+Missing: There are 2 karts in the scene. (ours: {'There are 2 karts in the scenario.', 'xue is right of the ego car.', 'xue is behind the ego car.', 'The track is sandtrack.', 'wilber is the ego car.'})
+Total: 200, Hits: 139, Accuracy: 69.50%
